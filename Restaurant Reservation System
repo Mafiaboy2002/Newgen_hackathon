@@ -1,0 +1,106 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Table {
+public:
+    int number;
+    int seats;
+    string status;
+    string revname;
+
+    Table(int num) : number(num), status("Available") {}
+};
+
+class Restaurant {
+public:
+    vector<Table> tables;
+
+    void addTable(int num) {
+        tables.push_back(Table(num));
+    }
+
+    bool removeTable(int num) {
+        for (auto& table : tables) {
+            if (table.number == num) {
+                table.number = 0;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void tableNumber(int num) {
+        for (auto& table : tables) {
+            if (table.number == num) {
+                cout << "Table Number: " << table.number << endl;
+                cout << "Status: " << table.status << endl;
+                cout << "Reserved by: " << table.revname << endl;
+            }
+        }
+    }
+
+    void availableTables() {
+        cout << "Available Tables: ";
+        for (auto& table : tables) {
+            if (table.status == "Available") {
+                cout << table.number << " ";
+            }
+            
+        }
+        cout << endl;
+    }
+
+    void reserveTable(string name, int num) {
+        for (auto& table : tables) {
+            if (table.number == num) {
+                table.status = "Booked";
+                table.revname = name;
+                cout << "Table Reservation Info: " << endl;
+                cout << "Table Number: " << table.number << endl;
+                cout << "Status: " << table.status << endl;
+                cout << "Reserved by: " << table.revname << endl;
+            }
+        }
+    }
+
+    void cancelReservation(int num) {
+        for (auto& table : tables) {
+            if (table.number == num && table.status == "Booked") {
+                table.status = "Available";
+                cout << "Table Status Cancelled for Table " << num << endl;
+            }
+        }
+    }
+};
+
+int main() {
+    Restaurant restaurant;
+    restaurant.addTable(4);
+    restaurant.addTable(5);
+    restaurant.addTable(2);
+
+    cout << "Before Reservation:" << endl;
+    restaurant.availableTables();
+
+    restaurant.reserveTable("kj", 5);
+
+
+    cout << "\nAfter Reservation:" << endl;
+    restaurant.availableTables();
+
+    restaurant.cancelReservation(5);
+
+    cout << "\nAfter Cancellation:" << endl;
+    restaurant.availableTables();
+
+    cout<< "\nRemove Table:" << endl;
+    cout<<restaurant.removeTable(5)<<" ";
+    cout<<restaurant.removeTable(4)<<" ";
+    cout<<restaurant.removeTable(2)<<" ";
+    cout<<restaurant.removeTable(2)<<" ";
+    
+    
+    
+
+    return 0;
+}
